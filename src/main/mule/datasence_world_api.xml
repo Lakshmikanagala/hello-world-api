@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c38fc328-db6f-42e4-9f04-23abb71c8dfe" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="datasence_world_apiFlow" doc:id="971642b9-9967-43aa-8271-57aec7e89313" >
+		<http:listener doc:name="Listener" doc:id="47629e4f-48b2-4525-b61a-d53b4cfab3da" config-ref="HTTP_Listener_config" path="/world"/>
+		<set-payload value='"Payload has been Saved Successfully"' doc:name="Set Payload" doc:id="38fa2bb1-79c5-4478-a37a-d47381dcec20" />
+		<ee:transform doc:name="Transform Message" doc:id="b5c71837-38bd-4c38-8a4b-a1f3091aa6d8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="b16b2784-9b2a-44ff-862e-c9b390e7a6f2" message='"Last Processer"'/>
+	</flow>
+</mule>
